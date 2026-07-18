@@ -5,6 +5,7 @@ Authors: CatCrypt Contributors
 -/
 import CatCryptCore.Crypto.SDist
 import CatCryptCore.Prob.Support
+import CatCryptCore.Crypto.SDistrLift
 import VCVio
 
 /-!
@@ -23,13 +24,11 @@ CatCrypt's `SDistr α = PMF (Option α)`.
 
 * `toSDistr` / `fromSDistr` — Type isomorphism (definitional)
 * `ProbComp.toSDistr` — Embed `ProbComp` into `SDistr` via `evalDist`
-* `sdistrToSPComp` — State-independent lift from `SDistr` to `SPComp`
-* `probCompLift` — `ProbComp → SPComp` monad morphism (composition of the two)
+* `probCompLift` — `ProbComp → SPComp` monad morphism, composing `ProbComp.toSDistr`
+  with the core lift `CatCrypt.Crypto.SDistrLift.sdistrToSPComp`
 
 ## Main results
 
-* `sdistrToSPComp_pure` / `sdistrToSPComp_bind` — monad-morphism laws
-* `sdistrToSPComp_isPure` — the lift produces heap-independent computations
 * `probCompLift_pure` / `probCompLift_bind` — monad-morphism laws for `ProbComp`
 * `probCompLift_isPure` — the ProbComp lift ignores the heap argument
 -/
@@ -37,6 +36,7 @@ CatCrypt's `SDistr α = PMF (Option α)`.
 namespace CatCrypt.Crypto.VCVioBridge
 
 open CatCrypt.Core CatCrypt.Prob
+open CatCrypt.Crypto.SDistrLift
 open scoped ENNReal
 
 /-! ## Type Isomorphism: SPMF ≅ SDistr (definitional) -/
@@ -97,34 +97,11 @@ theorem SPMF.mk_SDistr_fail {α : Type} :
 noncomputable def ProbComp.toSDistr {α : Type} (mx : ProbComp α) : SDistr α :=
   (evalDist mx).toPMF
 
-/-! ## State-Independent Lift: SDistr → SPComp -/
+/-! ## ProbComp → SPComp monad morphism
 
-/-- Lift `SDistr` to `SPComp` by ignoring the heap. -/
-noncomputable def sdistrToSPComp {α : Type} (d : SDistr α) : SPComp α :=
-  fun h => SDistr.bind d (fun a => SDistr.pure (a, h))
-
-@[simp] theorem sdistrToSPComp_run {α : Type} (d : SDistr α) (h : Heap) :
-    sdistrToSPComp d h = SDistr.bind d (fun a => SDistr.pure (a, h)) := rfl
-
-/-- The state-independent lift preserves pure. -/
-theorem sdistrToSPComp_pure {α : Type} (a : α) :
-    sdistrToSPComp (SDistr.pure a) = SPComp.pure a := by
-  funext h; simp [sdistrToSPComp, SDistr.pure_bind, SPComp.pure]
-
-/-- The state-independent lift preserves bind. -/
-theorem sdistrToSPComp_bind {α β : Type} (d : SDistr α) (f : α → SDistr β) :
-    sdistrToSPComp (SDistr.bind d f) =
-    SPComp.bind (sdistrToSPComp d) (fun a => sdistrToSPComp (f a)) := by
-  funext h
-  unfold sdistrToSPComp SPComp.bind
-  simp only [SDistr.bind_assoc, SDistr.pure_bind]
-
-/-- The state-independent lift produces `IsPure` computations. -/
-theorem sdistrToSPComp_isPure {α : Type} (d : SDistr α) :
-    SPComp.IsPure (sdistrToSPComp d) :=
-  ⟨d, fun _ => rfl⟩
-
-/-! ## ProbComp → SPComp monad morphism -/
+The state-independent lift `sdistrToSPComp` and its monad-morphism laws are pure
+CatCrypt content and live in `CatCryptCore.Crypto.SDistrLift`; only the
+VCVio-specific `ProbComp` composition is kept here. -/
 
 /-- Full monad morphism `ProbComp → SPComp`: run the `ProbComp` to an `SDistr`,
     then lift to `SPComp` by ignoring the heap. This is the canonical stateless

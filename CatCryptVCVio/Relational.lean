@@ -39,6 +39,7 @@ cover the primary use case (transferring VCVio advantage bounds into CatCrypt
 namespace CatCrypt.Crypto.VCVioBridge
 
 open CatCrypt.Core CatCrypt.Prob CatCrypt.Crypto
+open CatCrypt.Crypto.SDistrLift
 open scoped ENNReal
 
 /-! ## Pointwise evaluation of `probCompLift` -/
