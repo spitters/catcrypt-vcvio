@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone sibling path-deps
+        # lakefile.lean requires catcryptCore from "../CatCrypt-core". While the core
+        # repo is private the clone needs a PAT (CATCRYPT_CORE_TOKEN secret) with read
+        # access to it.
+        run: |
+          for repo in CatCrypt-core; do
+            git clone --depth 1 \
+              "https://x-access-token:${{ secrets.CATCRYPT_CORE_TOKEN }}@github.com/spitters/$repo.git" \
+              "../$repo"
+          done
+
+      - name: Install elan
+        run: |
+          set -euo pipefail
+          curl -sSfL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Cache .lake
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lean-toolchain', 'lakefile.lean', 'lake-manifest.json') }}
+          restore-keys: lake-
+
+      - name: Get Mathlib cache (download oleans; do not build Mathlib from source)
+        run: lake exe cache get || true
+
+      - name: Build
+        run: |
+          set -euo pipefail
+          lake build 2>&1 | tee build.log
+
+      - name: Guard — no sorry
+        run: |
+          set -euo pipefail
+          if grep -q "uses 'sorry'" build.log; then
+            echo "::error::Build contains sorry:"
+            grep -B1 "uses 'sorry'" build.log
+            exit 1
+          fi
+
+      - name: Guard — no native_decide (keeps the trust base off ofReduceBool)
+        run: |
+          set -euo pipefail
+          found="$(git grep -n 'native_decide' -- 'CatCryptVCVio' || true)"
+          if [ -n "$found" ]; then
+            echo "::error::native_decide adds the ofReduceBool trust edge:"
+            echo "$found"
+            exit 1
+          fi
