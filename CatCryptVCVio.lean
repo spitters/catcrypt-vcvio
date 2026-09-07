@@ -3,13 +3,15 @@ Copyright (c) 2024 CatCrypt Contributors. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: CatCrypt Contributors
 -/
-import CatCryptVCVio.Monad
-import CatCryptVCVio.State
-import CatCryptVCVio.Linking
-import CatCryptVCVio.Relational
-import CatCryptVCVio.Examples.Coin
-import CatCryptVCVio.Examples.OneTimePad
-import CatCryptVCVio.Examples.AdvantageTransfer
+module
+
+public import CatCryptVCVio.Monad
+public import CatCryptVCVio.State
+public import CatCryptVCVio.Linking
+public import CatCryptVCVio.Relational
+public import CatCryptVCVio.Examples.Coin
+public import CatCryptVCVio.Examples.OneTimePad
+public import CatCryptVCVio.Examples.AdvantageTransfer
 
 /-!
 # VCVio Bridge — Umbrella
@@ -34,3 +36,5 @@ the namespace `CatCrypt.Crypto.VCVioBridge` for downstream importers.
   if needed; the native CatCrypt forking lemma in
   `CatCrypt/Crypto/ForkingLemma.lean` is the default.
 -/
+
+@[expose] public section

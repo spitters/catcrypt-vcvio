@@ -3,7 +3,9 @@ Copyright (c) 2026 CatCrypt Contributors. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: CatCrypt Contributors
 -/
-import CatCryptVCVio.State
+module
+
+public import CatCryptVCVio.State
 
 /-!
 # VCVio Bridge — Package Linking ≡ simulateQ (Phase 3)
@@ -51,6 +53,8 @@ genuine linking infrastructure lives in the deep embedding
 presentation of the package algebra. A future identification `DeepPackage.link`
 ↔ `PkgImpl.link` would close the circle but is out of scope here.
 -/
+
+@[expose] public section
 
 namespace CatCrypt.Crypto.VCVioBridge
 

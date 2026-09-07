@@ -3,10 +3,12 @@ Copyright (c) 2024 CatCrypt Contributors. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: CatCrypt Contributors
 -/
-import CatCryptCore.Crypto.SDist
-import CatCryptCore.Prob.Support
-import CatCryptCore.Crypto.SDistrLift
-import VCVio
+module
+
+public import CatCryptCore.Crypto.SDist
+public import CatCryptCore.Prob.Support
+public import CatCryptCore.Crypto.SDistrLift
+public import VCVio
 
 /-!
 # VCVio Bridge — Monad layer (Phase 1)
@@ -32,6 +34,8 @@ CatCrypt's `SDistr α = PMF (Option α)`.
 * `probCompLift_pure` / `probCompLift_bind` — monad-morphism laws for `ProbComp`
 * `probCompLift_isPure` — the ProbComp lift ignores the heap argument
 -/
+
+@[expose] public section
 
 namespace CatCrypt.Crypto.VCVioBridge
 
