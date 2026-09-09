@@ -3,7 +3,9 @@ Copyright (c) 2026 CatCrypt Contributors. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: CatCrypt Contributors
 -/
-import CatCryptVCVio.Relational
+module
+
+public import CatCryptVCVio.Relational
 
 /-!
 # Bridge Example — Advantage transfer pattern
@@ -16,6 +18,8 @@ This is the pattern for any computational reduction (PRGfromPRF, ElGamal vs DDH,
 Schnorr vs DLog, etc.): prove the probability difference in VCVio, then derive
 the CatCrypt Advantage statement via `advantage_probCompLift_le_of_probOutput_diff`.
 -/
+
+@[expose] public section
 
 namespace CatCrypt.Crypto.VCVioBridge.Examples
 

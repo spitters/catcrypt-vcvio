@@ -3,7 +3,9 @@ Copyright (c) 2026 CatCrypt Contributors. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: CatCrypt Contributors
 -/
-import CatCryptVCVio.Relational
+module
+
+public import CatCryptVCVio.Relational
 
 /-!
 # Bridge Example — One-Time Pad via `evalDist` equality
@@ -17,6 +19,8 @@ the upstream `Examples/OneTimePad.lean`. That proof lives at the `GameEquiv` /
 `evalDist` equality — from perfect secrecy, a bijection coupling, or any other
 source — as a CatCrypt zero-advantage statement.
 -/
+
+@[expose] public section
 
 namespace CatCrypt.Crypto.VCVioBridge.Examples
 

@@ -3,7 +3,9 @@ Copyright (c) 2026 CatCrypt Contributors. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: CatCrypt Contributors
 -/
-import CatCryptVCVio.Monad
+module
+
+public import CatCryptVCVio.Monad
 
 /-!
 # VCVio Bridge — State layer (Phase 2)
@@ -26,6 +28,8 @@ computation as a VCVio `OracleComp heapStateSpec`, and package linking as
 
 * `runState_pure`, `runState_bind` — monad-morphism laws
 -/
+
+@[expose] public section
 
 namespace CatCrypt.Crypto.VCVioBridge
 

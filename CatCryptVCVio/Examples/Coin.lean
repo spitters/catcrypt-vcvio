@@ -3,7 +3,9 @@ Copyright (c) 2026 CatCrypt Contributors. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: CatCrypt Contributors
 -/
-import CatCryptVCVio.Relational
+module
+
+public import CatCryptVCVio.Relational
 
 /-!
 # Bridge Example — Coin flip
@@ -16,6 +18,8 @@ This is the pattern to follow for any stateless VCVio reduction: state the
 game in `ProbComp`, compute `Pr[= true | ...]` in VCVio, then transfer to a
 CatCrypt `Advantage` or `prTrue` statement via `prTrue_probCompLift`.
 -/
+
+@[expose] public section
 
 namespace CatCrypt.Crypto.VCVioBridge.Examples
 

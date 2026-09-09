@@ -3,8 +3,10 @@ Copyright (c) 2026 CatCrypt Contributors. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: CatCrypt Contributors
 -/
-import CatCryptVCVio.Monad
-import CatCryptCore.Crypto.Advantage
+module
+
+public import CatCryptVCVio.Monad
+public import CatCryptCore.Crypto.Advantage
 
 /-!
 # VCVio Bridge — Relational / Advantage transfer (Phase 4)
@@ -35,6 +37,8 @@ isomorphism proof is out of scope here — the quantitative bridges in this file
 cover the primary use case (transferring VCVio advantage bounds into CatCrypt
 `Advantage` / `UCEmulates` statements).
 -/
+
+@[expose] public section
 
 namespace CatCrypt.Crypto.VCVioBridge
 
