@@ -15,11 +15,11 @@ jobs:
         # lakefile.lean requires catcryptCore from "../CatCrypt-core". While the core
         # repo is private the clone needs a PAT (CATCRYPT_CORE_TOKEN secret) with read
         # access to it. The branch is the one whose toolchain and dependency set
-        # match this package's manifest (Lean 4.32); core's default branch is
-        # the 4.30 tree.
+        # match this package's manifest (Lean 4.33.1); core's main branch is
+        # that tree since the 4.33 merge.
         run: |
           for repo in CatCrypt-core; do
-            git clone --depth 1 --branch lean-upgrade-4.32 \
+            git clone --depth 1 --branch main \
               "https://x-access-token:${{ secrets.CATCRYPT_CORE_TOKEN }}@github.com/spitters/$repo.git" \
               "../$repo"
           done
