@@ -25,7 +25,7 @@ CatCrypt's `SDistr α = PMF (Option α)`.
 ## Main definitions
 
 * `toSDistr` / `fromSDistr` — Type isomorphism (definitional)
-* `ProbComp.toSDistr` — Embed `ProbComp` into `SDistr` via `evalDist`
+* `ProbComp.toSDistr` — Embed `ProbComp` into `SDistr` via `evalSPMF`
 * `probCompLift` — `ProbComp → SPComp` monad morphism, composing `ProbComp.toSDistr`
   with the core lift `CatCrypt.Crypto.SDistrLift.sdistrToSPComp`
 
@@ -97,9 +97,10 @@ theorem SPMF.mk_SDistr_fail {α : Type} :
 
 /-! ## ProbComp Embedding into SDistr -/
 
-/-- Embed VCVio's `ProbComp` into `SDistr` via `evalDist`. -/
+/-- Embed VCVio's `ProbComp` into `SDistr` via `evalSPMF`, the `SPMF`-valued
+    (discrete) evaluation semantics; `evalDist` is its `Measure`-valued counterpart. -/
 noncomputable def ProbComp.toSDistr {α : Type} (mx : ProbComp α) : SDistr α :=
-  (evalDist mx).toPMF
+  (evalSPMF mx).toPMF
 
 /-! ## ProbComp → SPComp monad morphism
 
@@ -120,7 +121,7 @@ noncomputable def probCompLift {α : Type} (mx : ProbComp α) : SPComp α :=
 theorem probCompLift_pure {α : Type} (a : α) :
     probCompLift (pure a : ProbComp α) = SPComp.pure a := by
   unfold probCompLift ProbComp.toSDistr
-  rw [evalDist_pure]
+  rw [evalSPMF_pure]
   show sdistrToSPComp (SDistr.pure a) = SPComp.pure a
   exact sdistrToSPComp_pure a
 
@@ -128,8 +129,8 @@ theorem probCompLift_pure {α : Type} (a : α) :
 theorem probCompLift_bind {α β : Type} (mx : ProbComp α) (f : α → ProbComp β) :
     probCompLift (mx >>= f) = SPComp.bind (probCompLift mx) (fun a => probCompLift (f a)) := by
   unfold probCompLift ProbComp.toSDistr
-  rw [evalDist_bind]
-  show sdistrToSPComp (SDistr.bind (evalDist mx).toPMF (fun a => (evalDist (f a)).toPMF)) = _
+  rw [evalSPMF_bind]
+  show sdistrToSPComp (SDistr.bind (evalSPMF mx).toPMF (fun a => (evalSPMF (f a)).toPMF)) = _
   rw [sdistrToSPComp_bind]
 
 /-- The lift produces heap-independent (i.e. `IsPure`) computations. -/

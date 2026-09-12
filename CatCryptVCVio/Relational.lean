@@ -116,13 +116,16 @@ theorem advantage_probCompLift_le_of_probOutput_diff
   simp only [prTrue_probCompLift]
   exact max_le h₀ h₁
 
-/-- Perfect-indistinguishability transfer: equal `evalDist` implies zero
-    `Advantage` on the lifts. -/
+/-- Perfect-indistinguishability transfer: equal `evalDist` (the `Measure`-valued
+    semantics) implies zero `Advantage` on the lifts. On the discrete space `Bool`
+    the measure determines the `SPMF` (`SPMF.toMeasure_injective`), which is what
+    `prTrue_probCompLift` reads. -/
 theorem advantage_probCompLift_eq_zero_of_evalDist_eq
     (mx₀ mx₁ : ProbComp Bool) (h : evalDist mx₀ = evalDist mx₁) :
     Advantage (probCompLift mx₀) (probCompLift mx₁) = 0 := by
+  have h' : evalSPMF mx₀ = evalSPMF mx₁ := SPMF.toMeasure_injective h
   unfold Advantage
-  simp only [prTrue_probCompLift, probOutput_def, h]
+  simp only [prTrue_probCompLift, probOutput_def, h']
   simp
 
 end CatCrypt.Crypto.VCVioBridge

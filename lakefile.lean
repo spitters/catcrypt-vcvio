@@ -25,8 +25,8 @@ lean_lib CatCryptVCVio where
 require catcryptCore from "../CatCrypt-core"
 
 require VCVio from git
-  "https://github.com/Verified-zkEVM/VCV-io" @ "v4.32.2"
+  "https://github.com/Verified-zkEVM/VCV-io" @ "f9dc47d9da"
 
 -- mathlib last so its pinned transitive deps win, matching the shared olean cache.
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4" @ "v4.32.0"
+  "https://github.com/leanprover-community/mathlib4" @ "v4.33.1"
