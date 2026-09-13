@@ -8,16 +8,16 @@ module
 public import CatCryptVCVio.Relational
 
 /-!
-# Bridge Example — One-Time Pad via `evalDist` equality
+# Bridge Example — Zero advantage from `evalDist` equality
 
-Demonstrates the transfer pattern: any two `ProbComp Bool` games with equal
-`evalDist` yield zero `Advantage` on their `probCompLift`s.
-
-For the full one-time-pad proof (perfect secrecy via bijection coupling), see
-the upstream `Examples/OneTimePad.lean`. That proof lives at the `GameEquiv` /
-`Pr[= · | _]` level. The bridge lemma below is what lets you *use* a VCVio
-`evalDist` equality — from perfect secrecy, a bijection coupling, or any other
-source — as a CatCrypt zero-advantage statement.
+Two `ProbComp Bool` games with equal `evalDist` have zero `Advantage` between
+their `probCompLift`s (`zero_advantage_of_evalDist_eq`), and a game has zero
+`Advantage` against itself (`zero_advantage_of_eq`). The file contains no
+one-time pad. VCVio's own one-time-pad example (`oneTimePad.cipherGivenMsg_equiv`
+in VCVio's `Examples/OneTimePad/Basic.lean`, outside VCVio's main library) proves
+that the ciphertext distributions for two messages are equal; mapping both
+games through the same Boolean distinguisher gives an `evalDist` equality of the
+form this file consumes.
 -/
 
 @[expose] public section
@@ -27,16 +27,15 @@ namespace CatCrypt.Crypto.VCVioBridge.Examples
 open CatCrypt.Core CatCrypt.Prob CatCrypt.Crypto CatCrypt.Crypto.VCVioBridge
 open scoped ENNReal
 
-/-- Transfer template: any `evalDist` equality lifts to zero advantage. The OTP
-    "rows-equal" theorem (`oneTimePad.cipherGivenMsg_equiv` in upstream) gives
-    exactly this hypothesis after specializing to a `Bool`-returning wrapper. -/
+/-- An `evalDist` equality between two `ProbComp Bool` games gives zero
+    `Advantage` between their lifts. This restates
+    `advantage_probCompLift_eq_zero_of_evalDist_eq`. -/
 theorem zero_advantage_of_evalDist_eq
     (game₀ game₁ : ProbComp Bool) (h : evalDist game₀ = evalDist game₁) :
     Advantage (probCompLift game₀) (probCompLift game₁) = 0 :=
   advantage_probCompLift_eq_zero_of_evalDist_eq game₀ game₁ h
 
-/-- Corollary: if both sides of a proposed indistinguishability reduce to the
-    same `ProbComp`, the advantage is zero. -/
+/-- The lift of a `ProbComp Bool` game has zero `Advantage` against itself. -/
 theorem zero_advantage_of_eq (game : ProbComp Bool) :
     Advantage (probCompLift game) (probCompLift game) = 0 :=
   zero_advantage_of_evalDist_eq game game rfl

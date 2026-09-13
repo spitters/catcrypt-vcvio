@@ -9,7 +9,7 @@ public import CatCryptVCVio.Monad
 public import CatCryptCore.Crypto.Advantage
 
 /-!
-# VCVio Bridge — Relational / Advantage transfer (Phase 4)
+# VCVio Bridge — Relational / Advantage transfer
 
 Bridges VCVio's probability-level reasoning (`Pr[= x | mx]`, `evalDist`) to
 CatCrypt's relational and advantage-level reasoning (`Advantage`, `prTrue`) via
@@ -27,15 +27,14 @@ This is what makes VCVio's quantitative reductions transfer into CatCrypt
 * `advantage_probCompLift_le_of_probOutput_diff` — VCVio probability bounds
   transfer to CatCrypt advantage bounds
 
-## Note on the full `RelTriple ↔ rHoare` equivalence
+## Relation between the relational program logics
 
-Upstream VCVio's relational program logic (`VCVio.ProgramLogic.Relational`) is
-built on `SPMF.Coupling`; CatCrypt's `rHoare` (`CatCrypt.Relational.Judgment`)
+VCVio's relational program logic (`VCVio.ProgramLogic.Relational`) is built on
+`SPMF.Coupling`; CatCrypt's `rHoare` (`CatCryptCore/Relational/Judgment.lean`)
 is built on `CatCrypt.Prob.Coupling`. The two coupling structures carry the same
-information but differ in how the marginal laws are stated. A full
-isomorphism proof is out of scope here — the quantitative bridges in this file
-cover the primary use case (transferring VCVio advantage bounds into CatCrypt
-`Advantage` / `UCEmulates` statements).
+information but state the marginal laws differently. No equivalence between
+VCVio's relational triples and `rHoare` is proved here; the results of this file
+are quantitative, and transfer probability bounds to `Advantage` bounds.
 -/
 
 @[expose] public section

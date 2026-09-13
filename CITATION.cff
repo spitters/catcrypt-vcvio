@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: >-
+  If you use CatCrypt VCVio in your research, please cite the paper below
+  (see preferred-citation).
+title: "CatCrypt VCVio: VCV-io interoperability for CatCrypt"
+type: software
+version: 0.1.0-alpha.1
+repository-code: "https://github.com/spitters/catcrypt-vcvio"
+license: MIT
+authors:
+  - family-names: Spitters
+    given-names: Bas
+    affiliation: Aarhus University
+preferred-citation:
+  type: article
+  title: "CatCrypt: From Rust to Cryptographic Security in Lean"
+  authors:
+    - family-names: Spitters
+      given-names: Bas
+      affiliation: Aarhus University
+  year: 2026
+  journal: "Cryptology ePrint Archive"
+  number: "Paper 2026/604"
+  url: "https://eprint.iacr.org/2026/604.pdf"

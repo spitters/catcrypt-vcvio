@@ -8,7 +8,7 @@ module
 public import CatCryptVCVio.Monad
 
 /-!
-# VCVio Bridge — State layer (Phase 2)
+# VCVio Bridge — State layer
 
 Encoding of CatCrypt's typed heap as an oracle polynomial.
 

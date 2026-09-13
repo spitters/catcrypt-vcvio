@@ -8,7 +8,7 @@ module
 public import CatCryptVCVio.State
 
 /-!
-# VCVio Bridge — Package Linking ≡ simulateQ (Phase 3)
+# VCVio Bridge — Package Linking ≡ simulateQ
 
 Realizes the SSP "package algebra" as the Kleisli bicategory of VCVio's free-monad
 adjunction on polynomial functors.
@@ -39,19 +39,22 @@ we define a universe-polymorphic `link` directly on top of `simulateQ`.
 
 * `PkgImpl.link_id_left`, `PkgImpl.link_id_right` — unit laws
 * `PkgImpl.link_assoc` — associativity (from monad-morphism composition)
-* `PkgImpl.toSPComp_link` — linking commutes with `SPComp` lowering
+* `PkgImpl.toSPComp_link` — the lowering of a linked package unfolds, by
+  definition, to `runState` of the `simulateQ` composite
 
-These are the SSP package-algebra laws, derived from the free-monad UMP rather
+The unit and associativity laws are derived from the free-monad UMP rather
 than postulated.
 
-## Note on CatCrypt's `RawPackage.link`
+## Relation to CatCrypt-core's linking
 
-The shallow-embedding `CatCrypt.Package.RawPackage.link` is a stub (it returns
-`P₁` unchanged, as documented at `CatCrypt/Package/RawPackage.lean:141`). The
-genuine linking infrastructure lives in the deep embedding
-(`CatCrypt.Deep.Package`). This file stands alongside both, providing the VCVio
-presentation of the package algebra. A future identification `DeepPackage.link`
-↔ `PkgImpl.link` would close the circle but is out of scope here.
+CatCrypt-core's shallow-embedding `CatCrypt.Package.RawPackage.link`
+(`CatCryptCore/Package/RawPackage.lean:158`) returns its first argument
+unchanged: a shallow package stores functions `S → SPComp T` with no oracle
+calls to substitute. Linking with oracle substitution is
+`CatCrypt.Deep.DeepPackage.link` in `CatCryptCore/Deep/Package.lean`, with
+correctness and associativity `runPkg_link` and `runPkg_link_assoc` in
+`CatCryptCore/Crypto/NomAdvantage.lean`. `PkgImpl.link` is a third presentation
+of linking, over VCVio. No theorem relating `DeepPackage.link` to `PkgImpl.link` is proved.
 -/
 
 @[expose] public section
@@ -150,9 +153,9 @@ noncomputable def toSPComp
     (p : PkgImpl heapStateSpec E) (t : ιE) : SPComp (E t) :=
   runState (p t)
 
-/-- Linking commutes with `SPComp` lowering: running the linked package at any
-    export is the same as `simulateQ`-composing the implementations and then
-    running the combined computation. -/
+/-- Definitional unfolding of `toSPComp` on a linked package: lowering `link p q`
+    at an export `t` is `runState` applied to `simulateQ p (q t)`. The proof is
+    `rfl`. -/
 theorem toSPComp_link
     {ιE : Type 1} {E : OracleSpec.{1, 0} ιE}
     (p : PkgImpl heapStateSpec heapStateSpec)

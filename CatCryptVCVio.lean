@@ -14,27 +14,24 @@ public import CatCryptVCVio.Examples.OneTimePad
 public import CatCryptVCVio.Examples.AdvantageTransfer
 
 /-!
-# VCVio Bridge — Umbrella
+# VCVio Bridge
 
-Re-exports the public core of the VCVio↔CatCrypt bridge. New work goes into
-submodules under `CatCrypt/Crypto/Bridges/VCVioBridge/`. This umbrella preserves
-the namespace `CatCrypt.Crypto.VCVioBridge` for downstream importers.
+Umbrella module of the VCVio–CatCrypt interoperability bridge. It imports every
+module of the package; the declarations live in the namespace
+`CatCrypt.Crypto.VCVioBridge`.
 
-## Layers
+## Modules
 
-* `Monad` — probability-level bridge and the `probCompLift` monad morphism
-* `State` — heap-as-oracle encoding and the `runState` morphism
-* `Linking` — identification of CatCrypt package linking with VCVio `simulateQ`
-* `Relational` — `probCompLift` probability preservation and advantage transfer
-* `Examples/*` — bridge usage patterns (Coin, OneTimePad, AdvantageTransfer)
-
-## Private extensions (not re-exported here)
-
-* `UCLift` — `UCMonadMorphism` wrapping and `UCEmulates` transfer theorems.
-  Depends on the `UCMonad` typeclass; import explicitly if needed.
-* `Forking` — re-exports of VCVio's upstream forking lemma. Import explicitly
-  if needed; the native CatCrypt forking lemma in
-  `CatCrypt/Crypto/ForkingLemma.lean` is the default.
+* `Monad` — the definitional identification of VCVio's `SPMF` with CatCrypt's
+  `SDistr`, and the `probCompLift : ProbComp → SPComp` monad morphism
+* `State` — the typed heap as an oracle spec, and the `runState` morphism
+  `OracleComp heapStateSpec → SPComp`
+* `Linking` — packages as VCVio query implementations, linking by `simulateQ`,
+  and its unit and associativity laws
+* `Relational` — `prTrue (probCompLift mx) Heap.empty = Pr[= true | mx]` and the
+  transfer of probability bounds to `Advantage` bounds
+* `Examples/*` — applications of the transfer lemmas (`Coin`, `OneTimePad`,
+  `AdvantageTransfer`)
 -/
 
 @[expose] public section

@@ -11,11 +11,10 @@ public import CatCryptCore.Crypto.SDistrLift
 public import VCVio
 
 /-!
-# VCVio Bridge — Monad layer (Phase 1)
+# VCVio Bridge — Monad layer
 
 Probability-level and stateless monad-morphism bridge between VCVio and CatCrypt,
-stated in `SDistr` / `SPComp` terms without any dependency on the `UCMonad`
-typeclass. The UC-facing wrapping lives in the private `UCLift.lean` extension.
+stated in `SDistr` / `SPComp` terms.
 
 ## Key insight
 
