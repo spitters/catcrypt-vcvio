@@ -29,12 +29,15 @@
     },
     {
       "configFile": "lakefile.lean",
-      "dir": "../CatCrypt-core",
       "inherited": false,
       "manifestFile": "lake-manifest.json",
       "name": "catcryptCore",
       "scope": "",
-      "type": "path"
+      "type": "git",
+      "url": "https://github.com/spitters/CatCrypt-core.git",
+      "rev": "2adfac7c5162ab0e89c9b494d53ee4b2fdc75613",
+      "inputRev": "2adfac7c5162ab0e89c9b494d53ee4b2fdc75613",
+      "subDir": null
     },
     {
       "configFile": "lakefile.toml",

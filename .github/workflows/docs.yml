@@ -25,16 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Clone sibling path-deps
-        # lakefile.lean requires catcryptCore from "../CatCrypt-core"; the clone uses
-        # the same CATCRYPT_CORE_TOKEN secret as ci.yml.
-        run: |
-          for repo in CatCrypt-core; do
-            git clone --depth 1 --branch main \
-              "https://x-access-token:${{ secrets.CATCRYPT_CORE_TOKEN }}@github.com/spitters/$repo.git" \
-              "../$repo"
-          done
-
       - name: Free up disk space
         # doc-gen4 documents the full Mathlib closure (oleans and HTML for ~20k
         # modules), which fills a stock runner; without headroom the cache tarball

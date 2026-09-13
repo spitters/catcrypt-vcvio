@@ -44,8 +44,7 @@ The package declares no axioms and uses no `native_decide`.
 
 Pinned in `lakefile.lean` and `lake-manifest.json`:
 
-- [CatCrypt Core](https://github.com/spitters/CatCrypt-core), required from the
-  sibling directory `../CatCrypt-core`
+- [CatCrypt Core](https://github.com/spitters/CatCrypt-core) at commit `2adfac7`
 - [VCV-io](https://github.com/Verified-zkEVM/VCV-io) at commit `f9dc47d9da`
 - [Mathlib](https://github.com/leanprover-community/mathlib4) `v4.33.1`
 

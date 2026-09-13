@@ -22,7 +22,8 @@ lean_lib CatCryptVCVio where
   -- re-export this package.
   globs := #[.andSubmodules `CatCryptVCVio]
 
-require catcryptCore from "../CatCrypt-core"
+require catcryptCore from git
+  "https://github.com/spitters/CatCrypt-core.git" @ "2adfac7c5162ab0e89c9b494d53ee4b2fdc75613"
 
 require VCVio from git
   "https://github.com/Verified-zkEVM/VCV-io" @ "f9dc47d9da"

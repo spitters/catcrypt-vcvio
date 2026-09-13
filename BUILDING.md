@@ -5,14 +5,8 @@
 Requires [elan](https://github.com/leanprover/elan). The pinned toolchain is
 `leanprover/lean4:v4.33.1` (see `lean-toolchain`).
 
-`lakefile.lean` requires CatCrypt Core from the sibling directory
-`../CatCrypt-core`, so clone it next to this repository first:
-
-```
-git clone https://github.com/spitters/CatCrypt-core ../CatCrypt-core
-```
-
-Then, from the repository root:
+`lakefile.lean` requires CatCrypt Core, VCV-io and Mathlib from git at the commits
+recorded in `lake-manifest.json`. From the repository root:
 
 ```
 lake exe cache get    # pull the Mathlib olean cache
