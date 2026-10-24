@@ -2,10 +2,10 @@
 
 Interoperability between [CatCrypt Core](https://github.com/spitters/CatCrypt-core)
 and [VCV-io](https://github.com/Verified-zkEVM/VCV-io) in Lean 4. The package relates
-VCV-io's `ProbComp` / `OracleComp` computations and `SPMF` distributions to
-CatCrypt's `SDistr` sub-distributions and `SPComp` stateful-probabilistic programs,
-so that a probability bound proved in VCV-io becomes an `Advantage` bound in
-CatCrypt.
+VCV-io's `ProbComp` / `OracleComp` computations and their measure semantics `𝒟[·]`
+to CatCrypt's `SDistr` sub-distributions and `SPComp` stateful-probabilistic
+programs, so that a probability bound proved in VCV-io becomes an `Advantage` bound
+in CatCrypt.
 
 **Documentation:** [API reference](https://spitters.github.io/catcrypt-vcvio/)
 
@@ -18,10 +18,10 @@ Module names live under the `CatCryptVCVio.*` root (single entry point:
 
 | Module | Main definitions | Main theorems |
 |---|---|---|
-| `Monad` | `toSDistr`, `fromSDistr` (VCV-io's `SPMF α` and CatCrypt's `SDistr α` are both `PMF (Option α)`); `ProbComp.toSDistr` (through `evalSPMF`); `probCompLift : ProbComp α → SPComp α` | `toSDistr_fromSDistr`, `fromSDistr_toSDistr`; `probCompLift_pure`, `probCompLift_bind` (monad-morphism laws); `probCompLift_isPure` (the lift does not read or write the heap) |
+| `Monad` | `sdistrMeasure` and the instance `EvalDistSemantics SDistr` (a sub-distribution as the sum of its point masses, so `𝒟[d]` is defined for every `SDistr`); `unifImpl : QueryImpl unifSpec SDistr`; `ProbComp.toSDistr := simulateQ unifImpl`; `probCompLift : ProbComp α → SPComp α` | the pure and bind laws of the instance (`LawfulEvalDistSemantics SDistr`); `evalDist_sdistr_singleton`: `𝒟[d] {x} = d (some x)`; `evalDist_sdistr_injective` (with measurable singletons, `d ↦ 𝒟[d]` is injective: the sub-distribution monad embeds in the Giry monad); `evalDist_toSDistr`: `𝒟[mx] = 𝒟[ProbComp.toSDistr mx]`; `probCompLift_pure`, `probCompLift_bind` (monad-morphism laws); `probCompLift_isPure` (the lift does not read or write the heap) |
 | `State` | `HeapOp`, `heapStateSpec` (typed heap reads and writes as an oracle spec); `heapHandler`; `runState : OracleComp heapStateSpec α → SPComp α` | `runState_pure`, `runState_bind` |
 | `Linking` | `PkgImpl I E` (a package with imports `I` and exports `E`, as `QueryImpl E (OracleComp I)`); `PkgImpl.id'`; `PkgImpl.link` (linking by `simulateQ`); `PkgImpl.toSPComp` | `link_id_left`, `link_id_right`, `simulateQ_simulateQ`, `link_assoc`; `toSPComp_link` (a definitional unfolding) |
-| `Relational` | — | `probCompLift_apply`; `prTrue_probCompLift`: `prTrue (probCompLift mx) Heap.empty = Pr[= true \| mx]`; `advantage_probCompLift_le_of_probOutput_diff`; `advantage_probCompLift_eq_zero_of_evalDist_eq` |
+| `Relational` | — | `probCompLift_apply`; `prTrue_probCompLift`: `prTrue (probCompLift mx) Heap.empty = 𝒟[mx] {true}`, and `prTrue_probCompLift_eq_prEvent` with the event `Pr{let b ← mx}[b = true]`; `advantage_probCompLift_le_of_probOutput_diff` (from bounds on `𝒟[mx₀] {true} - 𝒟[mx₁] {true}` in both directions); `advantage_probCompLift_eq_zero_of_evalDist_eq` (from `𝒟[mx₀] = 𝒟[mx₁]`) |
 | `Examples/Coin` | `returnTrue` | `returnTrue_self_zero_advantage` |
 | `Examples/OneTimePad` | — | `zero_advantage_of_evalDist_eq`, `zero_advantage_of_eq` (zero advantage from equal `evalDist`; the file contains no one-time pad) |
 | `Examples/AdvantageTransfer` | — | one `example` applying `advantage_probCompLift_le_of_probOutput_diff` |
@@ -30,8 +30,8 @@ The package declares no axioms and uses no `native_decide`.
 
 ## What is not included
 
-- An equivalence between VCV-io's relational program logic (built on
-  `SPMF.Coupling`) and CatCrypt's `rHoare` (built on `CatCrypt.Prob.Coupling`).
+- An equivalence between VCV-io's relational program logic and CatCrypt's
+  `rHoare` (built on `CatCrypt.Prob.Coupling`).
   The transfer results here are quantitative.
 - A theorem relating `PkgImpl.link` to CatCrypt-core's deep-embedding linking
   `CatCrypt.Deep.DeepPackage.link`.
@@ -44,11 +44,11 @@ The package declares no axioms and uses no `native_decide`.
 
 Pinned in `lakefile.lean` and `lake-manifest.json`:
 
-- [CatCrypt Core](https://github.com/spitters/CatCrypt-core) at commit `2adfac7`
-- [VCV-io](https://github.com/Verified-zkEVM/VCV-io) at commit `f9dc47d9da`
-- [Mathlib](https://github.com/leanprover-community/mathlib4) `v4.33.1`
+- [CatCrypt Core](https://github.com/spitters/CatCrypt-core) at branch `lean-upgrade-4.35`
+- [VCV-io](https://github.com/Verified-zkEVM/VCV-io) at commit `88efe971` (tag `v4.35.0`)
+- [Mathlib](https://github.com/leanprover-community/mathlib4) `v4.35.0`
 
-Toolchain: `leanprover/lean4:v4.33.1` (see `lean-toolchain`).
+Toolchain: `leanprover/lean4:v4.35.0` (see `lean-toolchain`).
 
 ## Build
 
