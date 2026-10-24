@@ -14,7 +14,8 @@ The `ProbComp Bool` game `returnTrue := pure true`, lifted by `probCompLift` to
 `SPComp`. The one theorem, `returnTrue_self_zero_advantage`, states that the
 lifted game has zero `Advantage` against itself; it is an instance of
 `advantage_probCompLift_eq_zero_of_evalDist_eq` with `rfl` as the `evalDist`
-equality. No probability of the game is computed.
+equality. `prTrue_returnTrue` computes the probability that the lifted game
+returns `true` from the empty heap through `prTrue_probCompLift`.
 -/
 
 @[expose] public section
@@ -31,5 +32,11 @@ def returnTrue : ProbComp Bool := pure true
 theorem returnTrue_self_zero_advantage :
     Advantage (probCompLift returnTrue) (probCompLift returnTrue) = 0 :=
   advantage_probCompLift_eq_zero_of_evalDist_eq _ _ rfl
+
+/-- The lift of `returnTrue` returns `true` from the empty heap with probability `1`. -/
+theorem prTrue_returnTrue :
+    prTrue (probCompLift returnTrue) CatCrypt.Core.Heap.empty = 1 := by
+  rw [prTrue_probCompLift, returnTrue, evalDist_pure,
+    MeasureTheory.Measure.dirac_apply_of_mem (Set.mem_singleton true)]
 
 end CatCrypt.Crypto.VCVioBridge.Examples

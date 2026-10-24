@@ -22,13 +22,15 @@ module of the package; the declarations live in the namespace
 
 ## Modules
 
-* `Monad` — the definitional identification of VCVio's `SPMF` with CatCrypt's
-  `SDistr`, and the `probCompLift : ProbComp → SPComp` monad morphism
+* `Monad` — the measure semantics `EvalDistSemantics SDistr` (the embedding of the
+  sub-PMF monad into the Giry monad), the interpretation `ProbComp.toSDistr` with
+  `𝒟[mx] = 𝒟[ProbComp.toSDistr mx]`, and the `probCompLift : ProbComp → SPComp`
+  monad morphism
 * `State` — the typed heap as an oracle spec, and the `runState` morphism
   `OracleComp heapStateSpec → SPComp`
 * `Linking` — packages as VCVio query implementations, linking by `simulateQ`,
   and its unit and associativity laws
-* `Relational` — `prTrue (probCompLift mx) Heap.empty = Pr[= true | mx]` and the
+* `Relational` — `prTrue (probCompLift mx) Heap.empty = 𝒟[mx] {true}` and the
   transfer of probability bounds to `Advantage` bounds
 * `Examples/*` — applications of the transfer lemmas (`Coin`, `OneTimePad`,
   `AdvantageTransfer`)

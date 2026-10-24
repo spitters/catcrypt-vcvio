@@ -23,11 +23,11 @@ lean_lib CatCryptVCVio where
   globs := #[.andSubmodules `CatCryptVCVio]
 
 require catcryptCore from git
-  "https://github.com/spitters/CatCrypt-core.git" @ "2adfac7c5162ab0e89c9b494d53ee4b2fdc75613"
+  "https://github.com/spitters/CatCrypt-core.git" @ "lean-upgrade-4.35"
 
 require VCVio from git
-  "https://github.com/Verified-zkEVM/VCV-io" @ "f9dc47d9da"
+  "https://github.com/Verified-zkEVM/VCV-io" @ "88efe9715a9fa9e7d89635c38cf70259836766c2"
 
 -- mathlib last so its pinned transitive deps win, matching the shared olean cache.
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4" @ "v4.33.1"
+  "https://github.com/leanprover-community/mathlib4" @ "v4.35.0"

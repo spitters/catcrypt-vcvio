@@ -11,7 +11,7 @@ public import CatCryptVCVio.Relational
 # Bridge Example — Advantage transfer
 
 An application of `advantage_probCompLift_le_of_probOutput_diff`: bounds on
-`Pr[= true | game₀] - Pr[= true | game₁]` in both directions give an `Advantage`
+`𝒟[game₀] {true} - 𝒟[game₁] {true}` in both directions give an `Advantage`
 bound on the lifted `SPComp` games. A computational reduction proved over
 `ProbComp` in VCVio is transferred to CatCrypt in the same way.
 -/
@@ -28,8 +28,8 @@ open scoped ENNReal
     their lifts. -/
 example (game₀ game₁ : ProbComp Bool)
     (hbound : ∀ b : Bool,
-      (Pr[= b | game₀]) - (Pr[= b | game₁]) ≤ (1 / 2 : ℝ≥0∞) ∧
-      (Pr[= b | game₁]) - (Pr[= b | game₀]) ≤ (1 / 2 : ℝ≥0∞)) :
+      𝒟[game₀] {b} - 𝒟[game₁] {b} ≤ (1 / 2 : ℝ≥0∞) ∧
+      𝒟[game₁] {b} - 𝒟[game₀] {b} ≤ (1 / 2 : ℝ≥0∞)) :
     Advantage (probCompLift game₀) (probCompLift game₁) ≤ (1 / 2 : ℝ≥0∞) :=
   advantage_probCompLift_le_of_probOutput_diff game₀ game₁ (hbound true).1 (hbound true).2
 

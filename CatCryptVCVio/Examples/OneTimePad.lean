@@ -31,7 +31,7 @@ open scoped ENNReal
     `Advantage` between their lifts. This restates
     `advantage_probCompLift_eq_zero_of_evalDist_eq`. -/
 theorem zero_advantage_of_evalDist_eq
-    (game₀ game₁ : ProbComp Bool) (h : evalDist game₀ = evalDist game₁) :
+    (game₀ game₁ : ProbComp Bool) (h : 𝒟[game₀] = 𝒟[game₁]) :
     Advantage (probCompLift game₀) (probCompLift game₁) = 0 :=
   advantage_probCompLift_eq_zero_of_evalDist_eq game₀ game₁ h
 
