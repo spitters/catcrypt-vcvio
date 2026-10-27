@@ -12,6 +12,9 @@ public import CatCryptVCVio.Relational
 public import CatCryptVCVio.Examples.Coin
 public import CatCryptVCVio.Examples.OneTimePad
 public import CatCryptVCVio.Examples.AdvantageTransfer
+public import CatCryptVCVio.PolyFun.ExactWP
+public import CatCryptVCVio.PolyFun.Relational
+public import CatCryptVCVio.PolyFun.StatefulFrame
 
 /-!
 # VCVio Bridge
@@ -34,6 +37,13 @@ module of the package; the declarations live in the namespace
   transfer of probability bounds to `Advantage` bounds
 * `Examples/*` — applications of the transfer lemmas (`Coin`, `OneTimePad`,
   `AdvantageTransfer`)
+* `PolyFun/ExactWP` — exact PolyFun interpretations (`ExactWPMonad`, `MAlgOrdered`,
+  `OpSpec`) as lawful XDijkstra observations
+* `PolyFun/Relational` — exact couplings as a PolyFun `MAlgRelOrdered` algebra
+* `PolyFun/StatefulFrame` — the frame rule of PolyFun's sum of stateful handlers
+
+The `PolyFun/*` modules declare in the namespace
+`CatCrypt.Crypto.VCVioBridge.XDijkstra`.
 -/
 
 @[expose] public section

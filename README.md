@@ -25,6 +25,13 @@ Module names live under the `CatCryptVCVio.*` root (single entry point:
 | `Examples/Coin` | `returnTrue` | `returnTrue_self_zero_advantage` |
 | `Examples/OneTimePad` | — | `zero_advantage_of_evalDist_eq`, `zero_advantage_of_eq` (zero advantage from equal `evalDist`; the file contains no one-time pad) |
 | `Examples/AdvantageTransfer` | — | one `example` applying `advantage_probCompLift_le_of_probOutput_diff` |
+| `PolyFun/ExactWP` | `XCoreWP.ofMAlgOrdered`, `XCoreWP.ofOpSpec` (PolyFun's ordered monad algebras and per-operation specifications as XDijkstra observations) | `lawfulXCoreWP_ofExactWPMonad` (every exact `WPMonad` is a lawful XDijkstra observation); `lawfulXCoreWP_ofMAlgOrdered`, `ofMAlgOrdered_wp` (the weakest precondition is `μ (x >>= pure ∘ post)`), `ofMAlgOrdered_triple_iff`; `lawfulXCoreWP_ofOpSpec`, `ofOpSpec_wp` (the weakest precondition is `FreeM.wpFold`) |
+| `PolyFun/Relational` | `RelQ0MonadCompat`; the instance `instMAlgRelOrderedExact : MAlgRelOrdered T T Prop` (exact couplings `RelQ0.liftR 0` as a relational monad algebra) | `liftRApprox_pure_inv_of_lt_one`, `RelQ0.liftR_pure_inv_of_lt_one` (a coupling of two point masses at an error below `1` relates the points); `triple_iff` (PolyFun's relational triple is `pre → RelQ0.liftR 0 post x y`) |
+| `PolyFun/StatefulFrame` | `runPT` (the XDijkstra observation of a free program run through a `Stateful` handler); `sepFst`, `sepSnd` | `runPT_localAlong_of_embed` (locality along a state embedding that commutes with the requests); `runPT_sum_inl_frame`, `runPT_sum_inr_frame`, `triple_sum_inl_frame`, `triple_sum_inr_frame` (the frame rule of `Stateful.sum`: a program on one summand preserves every predicate on the other summand's state) |
+
+The `PolyFun/*` modules declare in the namespace
+`CatCrypt.Crypto.VCVioBridge.XDijkstra` and use PolyFun at the revision VCV-io pins
+(`ef4c157`).
 
 The package declares no axioms and uses no `native_decide`.
 
@@ -44,7 +51,7 @@ The package declares no axioms and uses no `native_decide`.
 
 Pinned in `lakefile.lean` and `lake-manifest.json`:
 
-- [CatCrypt Core](https://github.com/spitters/CatCrypt-core) at branch `lean-upgrade-4.35`
+- [CatCrypt Core](https://github.com/spitters/CatCrypt-core) at branch `main`
 - [VCV-io](https://github.com/Verified-zkEVM/VCV-io) at commit `88efe971` (tag `v4.35.0`)
 - [Mathlib](https://github.com/leanprover-community/mathlib4) `v4.35.0`
 

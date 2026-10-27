@@ -23,7 +23,7 @@ lean_lib CatCryptVCVio where
   globs := #[.andSubmodules `CatCryptVCVio]
 
 require catcryptCore from git
-  "https://github.com/spitters/CatCrypt-core.git" @ "lean-upgrade-4.35"
+  "https://github.com/spitters/CatCrypt-core.git" @ "main"
 
 require VCVio from git
   "https://github.com/Verified-zkEVM/VCV-io" @ "88efe9715a9fa9e7d89635c38cf70259836766c2"

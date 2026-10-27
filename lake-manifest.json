@@ -30,10 +30,10 @@
     {
       "configFile": "lakefile.lean",
       "inherited": false,
-      "inputRev": "lean-upgrade-4.35",
+      "inputRev": "main",
       "manifestFile": "lake-manifest.json",
       "name": "catcryptCore",
-      "rev": "9d07fca931fd6c5a2b92627579458b5ee8f1b83b",
+      "rev": "7c6dbd74f31b8b24cf474fcf6d897f19511fb6d1",
       "scope": "",
       "subDir": null,
       "type": "git",
