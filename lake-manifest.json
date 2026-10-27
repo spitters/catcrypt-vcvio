@@ -160,6 +160,18 @@
       "url": "https://github.com/spitters/nominal-lean"
     },
     {
+      "configFile": "lakefile.lean",
+      "inherited": true,
+      "inputRev": "lean-upgrade-4.35",
+      "manifestFile": "lake-manifest.json",
+      "name": "«hax-lean»",
+      "rev": "8482a3104d69e59a9b61859823eebc36403dc495",
+      "scope": "",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/spitters/hax-lean.git"
+    },
+    {
       "configFile": "lakefile.toml",
       "inherited": false,
       "inputRev": "d023c5d31d7611ad772588b2da3286a7f3f0628b",
