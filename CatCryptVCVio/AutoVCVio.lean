@@ -150,12 +150,39 @@ example (x : Bool) : Triple 1 (pure x : ProbComp Bool) (fun _ => 1) := by catcry
 
 /-! ### Reported arms -/
 
+/--
+info: Try this:
+  [apply] simp
+-/
+#guard_msgs in
 example (x : Bool) : 𝒟[(pure x : ProbComp Bool)] {x} ≠ 0 := by catcrypt_auto?
+
+/--
+info: Try this:
+  [apply] set_option linter.unusedSimpArgs false in
+    (simp only [OracleComp.IsTotalQueryBound, OracleComp.IsQueryBoundP, OracleComp.IsPerIndexQueryBound,
+        OracleComp.isQueryBound_iff_isRollBound];
+      simp [PFunctor.FreeM.isRollBound_pure, PFunctor.FreeM.isRollBound_lift_bind_iff,
+        PFunctor.FreeM.isRollBound_map_iff])
+-/
+#guard_msgs in
 example {ι : Type} {spec : OracleSpec ι} {α : Type} (x : α) :
     IsTotalQueryBound (pure x : OracleComp spec α) 0 := by catcrypt_auto?
+
+/--
+info: Try this:
+  [apply] simp
+-/
+#guard_msgs in
 example {ι : Type} {spec : OracleSpec ι} {m : Type → Type} [Monad m] [LawfulMonad m]
     {α : Type} (impl : QueryImpl spec m) (x : α) :
     simulateQ impl (pure x : OracleComp spec α) = pure x := by catcrypt_auto?
+
+/--
+info: Try this:
+  [apply] rvcgen
+-/
+#guard_msgs in
 example (a : Bool) :
     RelTriple (pure a : ProbComp Bool) (pure a : ProbComp Bool) (EqRel Bool) := by
   catcrypt_auto?
