@@ -33,7 +33,7 @@
       "inputRev": "main",
       "manifestFile": "lake-manifest.json",
       "name": "catcryptCore",
-      "rev": "7c6dbd74f31b8b24cf474fcf6d897f19511fb6d1",
+      "rev": "e615b07806c4a5f3f25c34767ea63a9a91ec111e",
       "scope": "",
       "subDir": null,
       "type": "git",
@@ -290,6 +290,18 @@
       "subDir": null,
       "type": "git",
       "url": "https://github.com/leanprover/cslib"
+    },
+    {
+      "configFile": "lakefile.toml",
+      "inherited": true,
+      "inputRev": "901aaab7967ceecd2240d0b38bbde7cf3e2c14ac",
+      "manifestFile": "lake-manifest.json",
+      "name": "QuantumFoundations",
+      "rev": "901aaab7967ceecd2240d0b38bbde7cf3e2c14ac",
+      "scope": "",
+      "subDir": null,
+      "type": "git",
+      "url": "https://github.com/lean-crypto-foundations/QuantumFoundations"
     }
   ],
   "packagesDir": ".lake/packages",
