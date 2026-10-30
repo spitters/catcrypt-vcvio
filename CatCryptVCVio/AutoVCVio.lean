@@ -18,6 +18,10 @@ arms are the tactics and simp sets of VCVio (`vcgen`, `rvcgen`, `by_equiv`, `han
 `prEvent_norm`, `handler_nf`, `handler_simp`) and the roll-bound lemmas of PolyFun
 (`PFunctor.FreeM.isRollBound_*`), of which `OracleComp.IsQueryBound` is the specialisation.
 
+The guide to `catcrypt_auto`, its stages and how a library registers shapes, arms and
+normalisation steps (with this file as its worked example), is
+https://github.com/spitters/CatCrypt-core/blob/main/CatCryptCore/Tactics/README.md.
+
 | Shape | Detected goal | Arms, in order |
 |---|---|---|
 | VCVio relational triple | `RelTriple`, `RelWP`, `_ =ᵈ _` | `rvcgen`; `by_equiv` then `rvcgen` |

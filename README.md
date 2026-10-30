@@ -29,6 +29,7 @@ Module names live under the `CatCryptVCVio.*` root (single entry point:
 | `PolyFun/Pullback` | — | `isMonadMorphism_monadHom` (a PolyFun monad homomorphism preserves `pure` and `bind`); `lawful_pullback_monadHom` (an XDijkstra observation pulled back along it is lawful); `lawful_pullback_freeM` (free-monad syntax observed through a handler is lawful); `freeM_lift_triple_iff` (a generator has the triples of its handler) |
 | `PolyFun/Relational` | the instance `instMAlgRelOrderedExact : MAlgRelOrdered T T Prop` (exact couplings `RelQ0.liftR 0` as a relational monad algebra, defined as the grade-`0` part of `instMAlgRelGradedRelQ0`) | `triple_iff` (PolyFun's relational triple is `pre → RelQ0.liftR 0 post x y`) |
 | `PolyFun/RelationalGraded` | `MAlgRelGraded G m₁ m₂ l` (a relational weakest precondition indexed by grades in an ordered additive monoid `G`: grade `0` on `pure` is the postcondition, the precondition is monotone in the grade, and grades add under `bind`); `GTriple`; `atZero`, `ofMAlgRelOrdered`; `RelQ0MonadCompat`; the instance `instMAlgRelGradedRelQ0 : MAlgRelGraded ℝ≥0∞ T T Prop` (approximate couplings `RelQ0.liftR ε`) | `gtriple_pure`, `gtriple_conseq`, `gtriple_mono_grade`, `gtriple_bind`, `gtriple_bind_le` (the graded triple rules); `atZero_ofMAlgRelOrdered`, `unitEquiv` (graded algebras over the trivial monoid `Unit` are PolyFun's `MAlgRelOrdered` algebras); `grwp_adequate` (the graded precondition at grade `ε` gives an `ε`-approximate sub-coupling of the denotations from every initial heap); `liftRApprox_pure_inv_of_lt_one`, `RelQ0.liftR_pure_inv_of_lt_one` (a coupling of two point masses at an error below `1` relates the points) |
+| `AutoVCVio` | registrations of five direct shapes for VCVio goals with the `catcrypt_auto` dispatcher of CatCrypt-core: relational triples (`RelTriple`, `RelWP`, `=ᵈ`), unary triples, query bounds (`IsQueryBound` and its variants, through PolyFun's `IsRollBound`), `simulateQ` equations, and probability goals over `evalDist`, `prEvent` and `prFail`; the arms are VCVio's tactics and simp sets | tests: `catcrypt_auto?` closes a goal of each shape and reports its arm |
 | `PolyFun/StatefulFrame` | `runPT` (the XDijkstra observation of a free program run through a `Stateful` handler); `sepFst`, `sepSnd` | `runPT_localAlong_of_embed` (locality along a state embedding that commutes with the requests); `runPT_sum_inl_frame`, `runPT_sum_inr_frame`, `triple_sum_inl_frame`, `triple_sum_inr_frame` (the frame rule of `Stateful.sum`: a program on one summand preserves every predicate on the other summand's state) |
 
 The `PolyFun/*` modules declare in the namespace
@@ -67,6 +68,11 @@ Toolchain: `leanprover/lean4:v4.35.0` (see `lean-toolchain`).
 ## Documentation
 
 - **API reference:** [doc-gen4](https://spitters.github.io/catcrypt-vcvio/)
+- **Proof automation:** `catcrypt_auto` and `catcrypt_auto?`, with the VCVio shapes of
+  `AutoVCVio`, are described in the
+  [CatCrypt-core tactic guide](https://github.com/spitters/CatCrypt-core/blob/main/CatCryptCore/Tactics/README.md):
+  the dispatcher's stages, the built-in shapes and arms, and how a library registers its own
+  (`AutoVCVio` is the worked example).
 - **Changelog:** [CHANGELOG.md](CHANGELOG.md) ·
   **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md) ·
   **Third-party notices:** [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
