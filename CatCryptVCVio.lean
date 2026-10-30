@@ -8,6 +8,7 @@ module
 public import CatCryptVCVio.Monad
 public import CatCryptVCVio.State
 public import CatCryptVCVio.Linking
+public import CatCryptVCVio.OracleAdvOracleComp
 public import CatCryptVCVio.Relational
 public import CatCryptVCVio.Examples.Coin
 public import CatCryptVCVio.Examples.OneTimePad
