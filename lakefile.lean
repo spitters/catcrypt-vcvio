@@ -26,7 +26,7 @@ require catcryptCore from git
   "https://github.com/spitters/CatCrypt-core.git" @ "main"
 
 require VCVio from git
-  "https://github.com/Verified-zkEVM/VCV-io" @ "88efe9715a9fa9e7d89635c38cf70259836766c2"
+  "https://github.com/Verified-zkEVM/VCV-io" @ "6214f907760776ceab8b1f828c9015f549e66e31"
 
 -- mathlib last so its pinned transitive deps win, matching the shared olean cache.
 require mathlib from git
