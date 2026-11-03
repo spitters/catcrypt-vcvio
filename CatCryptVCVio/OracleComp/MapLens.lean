@@ -29,7 +29,7 @@ the action of such a lens on oracle computations, `OracleComp.mapLens`, as PolyF
   is sent to exactly one query.
 -/
 
-@[expose] public section
+public section
 
 universe u u' u'' v w
 
@@ -48,6 +48,7 @@ variable {ι : Type u} {ι' : Type u'} {ι'' : Type u''}
 /-- Transport an oracle computation along a polynomial lens: each query `t` to `spec` is
 replaced by the query `l.toFunA t` to `spec'`, whose answer is translated back by
 `l.toFunB t`. -/
+@[expose]
 def mapLens (l : Lens spec.toPFunctor spec'.toPFunctor) (oa : OracleComp spec α) :
     OracleComp spec' α :=
   FreeM.mapLens l oa
@@ -112,6 +113,7 @@ variable {ι : Type u} {ι' : Type u'} {spec : OracleSpec.{u, v} ι}
 
 /-- Pull a handler for `spec'` back along a lens into `spec'`: a `spec`-query `t` is answered by
 `impl (l.toFunA t)`, mapped by `l.toFunB t`. -/
+@[expose]
 def comapLens [Functor m] (impl : QueryImpl spec' m) (l : Lens spec.toPFunctor spec'.toPFunctor) :
     QueryImpl spec m :=
   fun t => l.toFunB t <$> impl (l.toFunA t)
