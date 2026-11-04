@@ -11,5 +11,8 @@ their own licenses.
 | Mathlib | Apache-2.0 | <https://github.com/leanprover-community/mathlib4> | mathematical library (`PMF`, `ℝ≥0∞`) |
 | CatCrypt Core | MIT | <https://github.com/spitters/CatCrypt-core> | `SDistr`, `SPComp`, `Advantage` |
 
+One file is under Apache-2.0: `CatCryptVCVio/OracleComp/MapLens.lean` is staged for
+contribution to VCV-io and carries VCV-io's license header.
+
 The transitive dependencies of these projects are listed in `lake-manifest.json`;
 each carries the license stated in its repository.

@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- `OracleComp/MapLens`: oracle computations along lenses of oracle specs, and the transport of
+  `IsQueryBound`, `IsTotalQueryBound`, `IsQueryBoundP`, `AllQueriesSatisfy` and
+  `IsPerIndexQueryBound` along lenses.
+- `ResponderSys`: VCV-io's stateful responders as CatCrypt reactive systems, with runs, views
+  and advantages.
+- `OracleAdvOracleComp`: bridges of `IsPerIndexQueryBound` and `AllQueriesSatisfy` to
+  CatCrypt's per-oracle charges and call restriction.
+- `Monad`: `toSDistr_map`, `probCompLift_map`, `map_probCompLift`.
+- Lean v4.35.0; VCV-io `6214f907`, PolyFun `4181c822`.
+
 Initial release of the VCV-io interoperability package for CatCrypt Core
 (Lean 4.33.1, Mathlib `v4.33.1`, VCV-io `f9dc47d9da`).
 

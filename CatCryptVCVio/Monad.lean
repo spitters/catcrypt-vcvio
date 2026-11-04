@@ -39,6 +39,7 @@ uniform query with `SDistr.uniform`.
 * `evalDist_toSDistr` — `𝒟[mx] = 𝒟[ProbComp.toSDistr mx]` for every `mx : ProbComp α`
 * `probCompLift_pure` / `probCompLift_bind` — monad-morphism laws for `ProbComp`
 * `probCompLift_isPure` — the ProbComp lift ignores the heap argument
+* `toSDistr_map`, `probCompLift_map`, `map_probCompLift` — the interpretations of a functorial map
 -/
 
 @[expose] public section
@@ -215,5 +216,23 @@ theorem probCompLift_bind {α β : Type} (mx : ProbComp α) (f : α → ProbComp
 theorem probCompLift_isPure {α : Type} (mx : ProbComp α) :
     SPComp.IsPure (probCompLift mx) :=
   sdistrToSPComp_isPure _
+
+/-- `ProbComp.toSDistr` sends a functorial map to a bind into `SDistr.pure`. -/
+theorem toSDistr_map {α β : Type} (f : α → β) (mx : ProbComp α) :
+    ProbComp.toSDistr (f <$> mx) =
+      SDistr.bind (ProbComp.toSDistr mx) fun a => SDistr.pure (f a) := by
+  rw [map_eq_bind_pure_comp, ProbComp.toSDistr_bind]
+  rfl
+
+/-- `probCompLift` sends a functorial map to a bind into `SPComp.pure`. -/
+theorem probCompLift_map {α β : Type} (f : α → β) (mx : ProbComp α) :
+    probCompLift (f <$> mx) = SPComp.bind (probCompLift mx) fun a => SPComp.pure (f a) := by
+  rw [map_eq_bind_pure_comp, probCompLift_bind]
+  simp only [Function.comp_apply, probCompLift_pure]
+
+/-- `SPComp.map` of a lift is the lift of the `ProbComp` map. -/
+theorem map_probCompLift {α β : Type} (f : α → β) (mx : ProbComp α) :
+    SPComp.map f (probCompLift mx) = probCompLift (f <$> mx) := by
+  rw [probCompLift_map]; rfl
 
 end CatCrypt.Crypto.VCVioBridge

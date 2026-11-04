@@ -63,19 +63,6 @@ variable {ι : Type} {spec : OracleSpec.{0, 0} ι} {S : Type}
 /-- A tagged answer: a query together with an answer to it. -/
 abbrev Answer (spec : OracleSpec.{0, 0} ι) : Type := (t : spec.Domain) × spec.Range t
 
-/-! ## `probCompLift` and functorial map -/
-
-/-- `probCompLift` sends a functorial map to a bind into `SPComp.pure`. -/
-theorem probCompLift_map {α β : Type} (f : α → β) (mx : ProbComp α) :
-    probCompLift (f <$> mx) = SPComp.bind (probCompLift mx) fun a => SPComp.pure (f a) := by
-  rw [map_eq_bind_pure_comp, probCompLift_bind]
-  simp only [Function.comp_apply, probCompLift_pure]
-
-/-- `SPComp.map` of a lift is the lift of the `ProbComp` map. -/
-theorem map_probCompLift {α β : Type} (f : α → β) (mx : ProbComp α) :
-    SPComp.map f (probCompLift mx) = probCompLift (f <$> mx) := by
-  rw [probCompLift_map]; rfl
-
 /-! ## Responders as systems, strategies as environments -/
 
 /-- An executable responder from the state `r₀` as a reactive system: events are queries, and
@@ -217,13 +204,6 @@ noncomputable def ofSys {τ : Type} (Sy : Sys τ spec.Domain (Answer spec)) (h :
     let _ : MeasurableSpace τ := ⊤
     let _ : MeasurableSpace (spec.Range t) := ⊤
     exact ⟨fun s => sdistrMeasure_apply_univ_le_one _⟩
-
-/-- `ProbComp.toSDistr` sends a functorial map to a bind into `SDistr.pure`. -/
-theorem toSDistr_map {α β : Type} (f : α → β) (mx : ProbComp α) :
-    ProbComp.toSDistr (f <$> mx) =
-      SDistr.bind (ProbComp.toSDistr mx) fun a => SDistr.pure (f a) := by
-  rw [map_eq_bind_pure_comp, ProbComp.toSDistr_bind]
-  rfl
 
 /-- Decoding a step of `toSys R r₀` from any heap gives the answer program of `R`, read in
 `SDistr`. -/
