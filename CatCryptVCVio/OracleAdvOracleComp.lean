@@ -6,6 +6,8 @@ Authors: CatCrypt Contributors
 module
 
 public import CatCryptCore.Crypto.OracleAdversaryFree
+public import CatCryptCore.Crypto.OracleQueryVec
+public import CatCryptVCVio.OracleComp.MapLens
 public import VCVio.OracleComp.QueryTracking.QueryBound.Basic
 public import VCVio.OracleComp.SimSemantics.SimulateQ
 public import CatCryptCore.ForMathlib.PMFUniformDefs
@@ -39,6 +41,13 @@ node `query d`; its image is the uniform fragment of `FreeM (AdvSig D R)`.
   `IsQueryBoundP` for the predicate `Sum.isRight` (uniform queries are not counted)
 * `isQueryBoundBy_ofOracleComp`, `isQueryBoundBy_iff_isQueryBound` — the weighted query bound is
   VCVio's `IsQueryBound` with cost `0` at uniform queries
+* `isQueryBoundBy_oracleCharge_ofOracleComp`, `isQueryBoundBy_oracleCharge_iff_isQueryBoundP` —
+  the count at `oracleCharge o i` is VCVio's `IsQueryBoundP` on the queries `inr d` with `o d = i`
+* `isPerIndexQueryBound_ofOracleComp`, `isPerIndexQueryBound_iff_oracleCharge` — VCVio's
+  per-index bound is a bound at each uniform query `inl m` and the count at `oracleCharge id d`
+  for each oracle query `d`
+* `mayOnlyCall_ofOracleComp`, `mayOnlyCall_iff_allQueriesSatisfy` — `MayOnlyCall S` is VCVio's
+  `AllQueriesSatisfy` at the predicate "uniform, or an oracle query in `S`"
 -/
 
 @[expose] public section
@@ -207,6 +216,87 @@ theorem isQueryBoundBy_iff_isQueryBound {α : Type} (cost : D → ℕ) (A : Orac
       (toOracleComp _ h).IsQueryBound n (fun t b => Sum.elim (fun _ => 0) cost t ≤ b)
         (fun t b => b - Sum.elim (fun _ => 0) cost t) := by
   rw [← isQueryBoundBy_ofOracleComp, ofOracleComp_toOracleComp, OracleAdv.ofFreeM_toFreeM]
+
+/-! ## Per-oracle counts and call restriction -/
+
+/-- The count of the adversary of `oc` at the charge `oracleCharge o i` is VCVio's bound on the
+queries `inr d` with `o d = i`. -/
+theorem isQueryBoundBy_oracleCharge_ofOracleComp {ι α : Type} [DecidableEq ι] (o : D → ι)
+    (i : ι) (oc : OracleComp (advSpec D R) α) (n : ℕ) :
+    (OracleAdv.ofFreeM (ofOracleComp oc)).IsQueryBoundBy (OracleAdv.oracleCharge o i) n ↔
+      oc.IsQueryBoundP (fun t => Sum.elim (fun _ => false) (fun d => decide (o d = i)) t = true)
+        n := by
+  rw [isQueryBoundBy_ofOracleComp, isQueryBoundP_def]
+  refine isQueryBound_congr (fun t b => ?_) (fun t b => ?_)
+  · rcases t with m | d
+    · simp
+    · by_cases h : o d = i <;> simp [OracleAdv.oracleCharge, h, Nat.one_le_iff_ne_zero]
+  · rcases t with m | d
+    · simp
+    · by_cases h : o d = i <;> simp [OracleAdv.oracleCharge, h]
+
+/-- The count at the charge `oracleCharge o i` of an adversary of the uniform fragment is VCVio's
+bound on the queries `inr d` with `o d = i` of its computation. -/
+theorem isQueryBoundBy_oracleCharge_iff_isQueryBoundP {ι α : Type} [DecidableEq ι] (o : D → ι)
+    (i : ι) (A : OracleAdv D R α) (h : IsUnifRand (OracleAdv.toFreeM A)) (n : ℕ) :
+    A.IsQueryBoundBy (OracleAdv.oracleCharge o i) n ↔
+      (toOracleComp _ h).IsQueryBoundP
+        (fun t => Sum.elim (fun _ => false) (fun d => decide (o d = i)) t = true) n := by
+  rw [← isQueryBoundBy_oracleCharge_ofOracleComp, ofOracleComp_toOracleComp,
+    OracleAdv.ofFreeM_toFreeM]
+
+/-- VCVio's per-index bound on `oc` is a bound at each uniform query `inl m` together with the
+count at the charge `oracleCharge id d` of the adversary of `oc`, for each oracle query `d`. -/
+theorem isPerIndexQueryBound_ofOracleComp [DecidableEq D] {α : Type}
+    (oc : OracleComp (advSpec D R) α) (qb : ℕ ⊕ D → ℕ) :
+    oc.IsPerIndexQueryBound qb ↔
+      (∀ m, oc.IsQueryBoundP (· = Sum.inl m) (qb (.inl m))) ∧
+        ∀ d, (OracleAdv.ofFreeM (ofOracleComp oc)).IsQueryBoundBy (OracleAdv.oracleCharge id d)
+          (qb (.inr d)) := by
+  rw [isPerIndexQueryBound_iff_forall_isQueryBoundP, Sum.forall]
+  refine and_congr Iff.rfl (forall_congr' fun d => ?_)
+  rw [isQueryBoundBy_oracleCharge_ofOracleComp]
+  constructor <;> intro h <;> refine h.of_imp fun t ht => ?_ <;> rcases t with m | d' <;> simp_all
+
+/-- VCVio's per-index bound on the computation of an adversary of the uniform fragment is a bound
+at each uniform query `inl m` together with the count of the adversary at the charge
+`oracleCharge id d`, for each oracle query `d`. -/
+theorem isPerIndexQueryBound_iff_oracleCharge [DecidableEq D] {α : Type} (A : OracleAdv D R α)
+    (h : IsUnifRand (OracleAdv.toFreeM A)) (qb : ℕ ⊕ D → ℕ) :
+    (toOracleComp _ h).IsPerIndexQueryBound qb ↔
+      (∀ m, (toOracleComp _ h).IsQueryBoundP (· = Sum.inl m) (qb (.inl m))) ∧
+        ∀ d, A.IsQueryBoundBy (OracleAdv.oracleCharge id d) (qb (.inr d)) := by
+  rw [isPerIndexQueryBound_ofOracleComp, ofOracleComp_toOracleComp, OracleAdv.ofFreeM_toFreeM]
+
+/-- A query bound `0` with charge `c` is VCVio's predicate-only bound at the indices of charge
+`0`. -/
+theorem isQueryBound_zero_charge_iff_allQueriesSatisfy {ι α : Type} {spec : OracleSpec ι}
+    (c : ι → ℕ) (oa : OracleComp spec α) :
+    oa.IsQueryBound 0 (fun t b => c t ≤ b) (fun t b => b - c t) ↔
+      oa.AllQueriesSatisfy fun t => c t = 0 := by
+  induction oa using OracleComp.inductionOn with
+  | pure _ => exact iff_of_true trivial (allQueriesSatisfy_pure _ _)
+  | query_bind t mx ih =>
+    rw [isQueryBound_query_bind_iff, allQueriesSatisfy_query_bind_iff, Nat.zero_sub]
+    simp only [Nat.le_zero, ih]
+
+/-- The adversary of `oc` may only call the oracle queries in `S` exactly when every query of
+`oc` is a uniform query or an oracle query `inr d` with `d ∈ S`. -/
+theorem mayOnlyCall_ofOracleComp {α : Type} (S : Set D) (oc : OracleComp (advSpec D R) α) :
+    OracleAdv.MayOnlyCall S (OracleAdv.ofFreeM (ofOracleComp oc)) ↔
+      oc.AllQueriesSatisfy fun t => Sum.elim (fun _ => True) (· ∈ S) t := by
+  rw [OracleAdv.MayOnlyCall, isQueryBoundBy_ofOracleComp,
+    isQueryBound_zero_charge_iff_allQueriesSatisfy]
+  refine iff_of_eq (congrArg _ (funext fun t => ?_))
+  rcases t with m | d <;> simp [OracleAdv.outsideCharge_eq_zero]
+
+/-- An adversary of the uniform fragment may only call the oracle queries in `S` exactly when
+every query of its computation is a uniform query or an oracle query `inr d` with `d ∈ S`. -/
+theorem mayOnlyCall_iff_allQueriesSatisfy {α : Type} (S : Set D) (A : OracleAdv D R α)
+    (h : IsUnifRand (OracleAdv.toFreeM A)) :
+    OracleAdv.MayOnlyCall S A ↔
+      (toOracleComp _ h).AllQueriesSatisfy fun t => Sum.elim (fun _ => True) (· ∈ S) t := by
+  rw [← mayOnlyCall_ofOracleComp, ofOracleComp_toOracleComp, OracleAdv.ofFreeM_toFreeM]
 
 end CatCrypt.Crypto.VCVioBridge
 
