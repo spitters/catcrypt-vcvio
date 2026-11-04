@@ -22,7 +22,7 @@ The events of the translated system are the queries `spec.Domain`. The outputs a
 answers `Answer spec = Σ t, spec.Range t`: `Sys` has one output type for every event, and the
 tag records which query an output answers. A system produced by `toSys` always tags an output
 with the query it answers; the environment `toStrat` reads an answer to its own exposed query
-through `OracleStrategy.absorb`.
+through `ResponderSys.absorb`.
 
 ## Main definitions
 
