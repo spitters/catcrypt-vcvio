@@ -16,6 +16,7 @@ public import CatCryptVCVio.PolyFun.ExactWP
 public import CatCryptVCVio.PolyFun.Pullback
 public import CatCryptVCVio.PolyFun.Relational
 public import CatCryptVCVio.PolyFun.RelationalGraded
+public import CatCryptVCVio.PolyFun.RelationalGradedOracleComp
 public import CatCryptVCVio.PolyFun.StatefulFrame
 
 /-!
@@ -47,6 +48,8 @@ module of the package; the declarations live in the namespace
 * `PolyFun/RelationalGraded` — relational monad algebras graded by an ordered additive
   monoid; approximate couplings `RelQ0.liftR ε` as one graded by `ℝ≥0∞`, whose grade-`0`
   part is the exact algebra of `PolyFun/Relational`
+* `PolyFun/RelationalGradedOracleComp` — VCVio's approximate relational triples as an
+  algebra graded by errors in `ℝ≥0∞`, with bind adding the errors
 * `PolyFun/StatefulFrame` — the frame rule of PolyFun's sum of stateful handlers
 
 The `PolyFun/*` modules declare in the namespace
