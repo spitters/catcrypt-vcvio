@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- `PolyFun/RelationalGradedOracleComp`: VCVio's `ApproxRelTriple` as an
+  `MAlgRelGraded ℝ≥0∞` instance for `OracleComp`, using VCVio's additive-error bind rule.
+
 Initial release of the VCV-io interoperability package for CatCrypt Core
 (Lean 4.33.1, Mathlib `v4.33.1`, VCV-io `f9dc47d9da`).
 
