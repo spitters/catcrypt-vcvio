@@ -19,6 +19,8 @@ public import CatCryptVCVio.PolyFun.Pullback
 public import CatCryptVCVio.PolyFun.Relational
 public import CatCryptVCVio.PolyFun.RelationalGraded
 public import CatCryptVCVio.PolyFun.StatefulFrame
+public import CatCryptVCVio.Rust.OracleComp
+public import CatCryptVCVio.Rust.Signature
 
 /-!
 # VCVio Bridge
@@ -50,6 +52,11 @@ module of the package; the declarations live in the namespace
   monoid; approximate couplings `RelQ0.liftR ε` as one graded by `ℝ≥0∞`, whose grade-`0`
   part is the exact algebra of `PolyFun/Relational`
 * `PolyFun/StatefulFrame` — the frame rule of PolyFun's sum of stateful handlers
+* `Rust/OracleComp` — `RustOracleComp`, the monad of Rust code with oracle access, and its
+  run lemmas
+* `Rust/Signature` — Rust's effects as a polynomial signature, Rust programs with oracle
+  access as its free monad, and their interpretations into `RustOracleComp` and
+  `OptionT OracleComp`
 
 The `PolyFun/*` modules declare in the namespace
 `CatCrypt.Crypto.VCVioBridge.XDijkstra`.
