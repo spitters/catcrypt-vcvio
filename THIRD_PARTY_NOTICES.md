@@ -11,8 +11,7 @@ the table are the only source code in this package from another project or stage
 | Mathlib | Apache-2.0 | <https://github.com/leanprover-community/mathlib4> | mathematical library (`PMF`, `ℝ≥0∞`) |
 | CatCrypt Core | MIT | <https://github.com/spitters/CatCrypt-core> | `SDistr`, `SPComp`, `Advantage` |
 
-Two files are under Apache-2.0 and carry their license headers:
-`CatCryptVCVio/OracleComp/MapLens.lean` is staged for contribution to VCV-io, and
+One file is under Apache-2.0 and carries its license header:
 `CatCryptVCVio/Rust/OracleComp.lean` is a copy of VCV-io's `Interop/Rust/Common.lean` and
 `Interop/Rust/Run.lean` (Copyright 2026 Quang Dao), in its own namespace.
 

@@ -7,7 +7,7 @@ module
 
 public import CatCryptCore.Crypto.OracleAdversaryFree
 public import CatCryptCore.Crypto.OracleQueryVec
-public import CatCryptVCVio.OracleComp.MapLens
+public import VCVio.OracleComp.MapLens
 public import VCVio.OracleComp.QueryTracking.QueryBound.Basic
 public import VCVio.OracleComp.SimSemantics.SimulateQ
 public import CatCryptCore.ForMathlib.PMFUniformDefs
